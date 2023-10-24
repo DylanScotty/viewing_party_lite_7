@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'User Dashboard Page' do
   before :each do 
-    @user1 = User.create(name: 'Joe', email: 'joeiscool@yahoo.com')
+    @user1 = create(:user)
     @viewing_party1 = ViewingParty.create!(duration: 3, party_date: Date.today, start_time: Time.now, movie_id: 550)
     PartyGuest.create!(user_id: @user1.id, viewing_party_id: @viewing_party1.id, host: true)
     @viewing_party2 = ViewingParty.create!(duration: 4, party_date: Date.today, start_time: Time.now, movie_id: 550)

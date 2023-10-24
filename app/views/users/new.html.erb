@@ -4,12 +4,18 @@
   </div>
 <% end %>
 
+<h2>Register a New User</h2>
+
 <section class='user_creation_form'>
-<%= form_with url: users_path(@user), data: { turbo: false } do |form| %>
+<%= form_with model: @user, url: register_index_path do |form| %>
   <%= form.label :name %>
   <%= form.text_field :name %>
   <%= form.label :email %>
   <%= form.text_field :email %>
+  <%= form.label :password %>
+  <%= form.password_field :password %>
+  <%= form.label :password_confirmation %>
+  <%= form.password_field :password_confirmation %>
   <%= form.submit "Register" %>
 <% end %>
 </section>

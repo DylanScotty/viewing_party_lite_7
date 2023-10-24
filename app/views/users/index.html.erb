@@ -1,8 +1,7 @@
 <div style="text-align: center;">
 <h1>Viewing Party Lite</h1>
-<button>
-<a href=<%= '/register' %>>Create New User</a>
-</button>
+<%= button_to "Sign In", login_path, method: :get %>
+<%= button_to "Register", register_path, method: :get %>
 </div>
 
 <h2 style="text-align: center;">

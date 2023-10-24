@@ -32,7 +32,6 @@ RSpec.describe 'New User page' do
       click_button("Register")
     end
 
-    expect(current_path).to eq('/users')
-    expect(page).to have_content("Please fill in all fields.")
+    expect(current_path).to eq('/register')
   end
 end

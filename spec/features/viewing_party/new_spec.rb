@@ -3,9 +3,9 @@ require "webmock"
 
 RSpec.describe 'Viewing Party New Page' do
   before :each do
-    @user1 = User.create(name: 'Joe', email: 'joeiscool@yahoo.com')
-    @user2 = User.create(name: 'Jill', email: 'jilliscool@yahoo.com')
-    @user3 = User.create(name: 'Bill', email: 'billiscool@yahoo.com')
+    @user1 = create(:user)
+    @user2 = create(:user)
+    @user3 = create(:user)
     @movie_id = 550
     @viewing_party = ViewingParty.create!(duration: 60, party_date: Date.today, start_time: Time.now, movie_id: @movie_id)
   end

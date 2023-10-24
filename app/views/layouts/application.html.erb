@@ -20,5 +20,14 @@
 
   <body>
     <%= yield %>
+
+    <% if flash.any? && !flash[:success_login] %>
+      <% flash.each do |type, msg| %>
+        <div>
+          <%= msg %>
+        </div>
+      <% end %>
+    <% end %>
+    
   </body>
 </html>

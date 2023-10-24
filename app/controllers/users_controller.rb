@@ -11,16 +11,32 @@ class UsersController < ApplicationController
   end
 
   def new 
-
+    @user = User.new
   end
 
   def create
     @user = User.new(user_params)
     if @user.save
+      flash[:success] = "New User created successfully."
       redirect_to user_path(@user)
     else 
-      flash[:alert] = "Please fill in all fields."
-      render :new
+      flash[:error] = "Registration failed: " + @user.errors.full_messages.join(', ')
+      redirect_to register_path
+    end
+  end
+
+  def login_form
+
+  end
+
+  def login_user
+    begin
+      user = User.find_by(email: params[:email])
+      raise "Invalid credentials. Please Try again." unless user && user.authenticate(params[:password])
+      redirect_to user_path(user)
+    rescue StandardError => e
+      redirect_to login_path
+      flash[:error] = e.message
     end
   end
 
@@ -28,6 +44,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:name, :email)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 end

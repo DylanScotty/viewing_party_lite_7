@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Dashboard: Discover Movies Page' do
   describe 'When I visit the user discover page' do
     before :each do
-      @user1 = User.create(name: 'Joe', email: 'joeiscool@yahoo.com')
+      @user1 = create(:user)
 
       visit user_discover_index_path(@user1)
     end

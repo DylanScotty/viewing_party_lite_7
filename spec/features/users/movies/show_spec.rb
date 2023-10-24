@@ -3,7 +3,7 @@ require "webmock"
 
 RSpec.describe 'User Movie Show Page' do
     before :each do
-        @user1 = User.create(name: 'Joe', email: 'joeiscool@yahoo.com')
+        @user1 = create(:user)
         visit "/users/#{@user1.id}/movies/550"
         @movie_id = 550
     end
