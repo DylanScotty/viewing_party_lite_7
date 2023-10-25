@@ -8,6 +8,14 @@ class UsersController < ApplicationController
     @viewing_parties = @user.invited_viewing_parties
     @movie_id = (params[:movie_id])
     @facade = MoviesDetailsFacade.new(@movie_id)
+      begin
+        @user = User.find(params[:id])
+        raise "Please log in or register" unless logged_in?
+        @facade = MovieDetailsFacade.new
+      rescue StandardError => e
+        redirect_to root_path
+        flash[:error] = e.message
+      end
   end
 
   def new 
@@ -17,6 +25,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      login(@user)
       flash[:success] = "New User created successfully."
       redirect_to user_path(@user)
     else 
@@ -24,22 +33,6 @@ class UsersController < ApplicationController
       redirect_to register_path
     end
   end
-
-  def login_form
-
-  end
-
-  def login_user
-    begin
-      user = User.find_by(email: params[:email])
-      raise "Invalid credentials. Please Try again." unless user && user.authenticate(params[:password])
-      redirect_to user_path(user)
-    rescue StandardError => e
-      redirect_to login_path
-      flash[:error] = e.message
-    end
-  end
-
 
   private
 
