@@ -1,0 +1,12 @@
+<div class="login-register-form">
+<h2>Log In</h2>
+  <%= form_with url: login_path, method: :post do |f| %>
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+    <br/>
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+    <br/>
+    <%= f.submit "Sign In" %>
+  <% end %>
+</div>
