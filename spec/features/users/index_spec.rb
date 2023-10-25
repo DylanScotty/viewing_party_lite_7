@@ -13,7 +13,6 @@ RSpec.describe 'User index page' do
 
     it 'displays a button to create a new user' do
         visit(root_path)
-        save_and_open_page
         expect(page).to have_button('Register')
     end
 
@@ -24,17 +23,54 @@ RSpec.describe 'User index page' do
         expect(current_path).to eq('/register')
     end
 
-    it 'displays a list of existing users, that includes links to their show page' do
-        @user1 = create(:user)
-        @user2 = create(:user)
-        @user3 = create(:user)
-        visit(root_path)
+    describe "when I visit root path as a logged in user" do
+        before :each do
+            @user_1 = User.create!(name: 'Brian', email: 'tacobellrules@email.com', password: 'Murphy123!', password_confirmation: 'Murphy123!')
+        end
 
-        expect(page).to have_link(@user1.name)
-        expect(page).to have_link(@user2.name)
-        expect(page).to have_link(@user3.name)
+        it 'shows the login or create account buttons' do
+          visit login_path
+          fill_in('Email', with: @user_1.email)
+          fill_in('Password', with: @user_1.password)
+          click_button('Sign In')
+    
+          visit root_path
+    
+          expect(page).to_not have_link('Sign In')
+          expect(page).to_not have_link('Register')
+        end
+    
+        it 'shows a button to logout' do
+          visit login_path
+          fill_in('Email', with: @user_1.email)
+          fill_in('Password', with: @user_1.password)
+          click_button('Sign In')
+    
+          visit root_path
+    
+          expect(page).to have_link('Log Out')
+        end
 
-        click_link(@user1.name)
-        expect(current_path).to eq(user_path(@user1))
+        it 'When logout is clicked, it redirects to landing page' do
+            visit login_path
+            fill_in('Email', with: @user_1.email)
+            fill_in('Password', with: @user_1.password)
+            click_button('Sign In')
+      
+            visit root_path
+            click_link('Log Out')
+
+            expect(current_path).to eq(root_path)
+            expect(page).to have_button('Sign In')
+            expect(page).to have_button('Register')
+        end
+
+        it 'does not show the user dashboard if not logged in' do
+            visit root_path
+            visit user_path(@user_1)
+      
+            expect(current_path).to eq(root_path)
+            expect(page).to have_content("Please log in or register")
+        end
     end
 end
